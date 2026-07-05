@@ -1,0 +1,108 @@
+body{
+    background-color: var(--body-color);
+}
+
+/*CONTAINERS*/
+
+.main-container{
+    position: relative;
+    width: 460px;
+    height: 800px;
+    border: 0px solid transparent;
+    border-radius: 3.5vw;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+.half-up-container{
+    background-color: var(--primary-color);
+    width: 100%;
+    padding: 0px 40px;
+}
+.half-down-container{
+    width: 100%;
+    padding: 0px 40px;
+}
+.tos-container{
+    border: 1px solid rgba(238, 238, 238);
+    border-radius: 9px;
+    background-color: rgba(249, 249, 249);
+}
+.form-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(249, 249, 249);
+    border: 1px solid rgba(238, 238, 238);
+    padding: 15px 0vw;
+}
+
+/*IMAGES*/
+
+.logo{
+    background-color: var(--background-color);
+    width: 130px;
+    height: 130px;
+    border: 0px solid transparent;
+    border-radius: 12px;
+    padding: 0.3vw;
+}
+.form{
+    width: 100%;
+
+}
+#phonenumber{
+    width: 100%;
+    border: 1px solid rgba(221, 221, 221);
+    border-radius: 9px;
+    height: 5vh;
+
+}
+
+/*TEXT*/
+
+.client-name{
+    color: white;
+    font-size: 40px;
+}
+
+.client-subname{
+    color: white;
+    font-size: 19px;
+}
+
+.instructions{
+    color: rgb(179, 179, 179);
+}
+
+.tos-description{
+    font-size: 13px;
+}
+
+
+
+/*button*/
+
+.button-google{
+    display: block;
+    width: 100% !important;
+    background-color: var(--primary-color);
+    border-radius: 9px;
+    font-weight: 600;
+    padding: 12px 0px;
+
+}
+.button-google:hover{
+    /* AI helped teach me what is color-mix*/
+    background-color: color-mix(in srgb, var(--primary-color) 90%, white 10%)
+}
+
+
+
+/*extras*/
+.required{
+    color: red;
+}
+
+.links{
+    color: var(--half-up-color);
+}

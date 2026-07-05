@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang = "pt-br">
+    <meta charset="UTF-8">
+    <head>
+        <title>Portal Wifi - {{client_name}} </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="{{ url_for('static', path='/css/styles.css?v=2') }}" rel="stylesheet">
+        <style>
+            :root {
+                --body-color: rgb(35, 35, 35);
+                --primary-color: {{primary_color}};
+                --background-color: {{secondary_color}};
+                --text-color: {{text_color}};
+            }
+        </style>
+    </head>
+    <!--AI helped making the bootstrap class for the body-->
+    <body class ="min-vh-100 d-flex justify-content-center align-items-center">\
+
+        <!--main central container-->
+        <div class = "d-flex flex-column text-center justify-content-start main-container">
+
+            <!-- Upper half -->
+            <div class="half-up-container pt-2 pb-4">
+                <div class="logo-container mb-3 pt-4">
+                    <!-- Uses custom client's logo dinamically -->
+                    <img class="logo" src="{{logo}}">
+                </div>
+                <div>
+                    <!-- Uses client's name dinamically -->
+                    <h1 class="client-name">{{client_name}}</h1>
+                    <h2 class="client-subname">{{client_subname}}</h2>
+                </div>
+            </div>
+
+            <!-- Latter half -->
+            <div class="half-down-container">
+                <div class="text-start mt-4">
+
+                    <p class="instructions ps-2 pt-2 pb-4">Login with your google account to access the Wi-Fi</p>
+
+                    <!-- Form for phonenumber -->
+                    <form action="/login" method="post" class="form">
+                        <label class="mb-2" for="phonenumber">Phone
+                            <!-- AI helped make the red asterisk -->
+                            <span class="required">*</span>
+                        </label> <br>
+                        <input class="ps-2" type="text" id="phonenumber" name="phonenumber" placeholder="(99) 99999-9999" required>
+                        
+                        <!--TOS container-->
+                        <div class="tos-container mt-4">
+                            <div class="row p-2">
+                                <div class="col-1">
+                                    <input type="checkbox" id="tos_accept" required>
+                                </div>
+                                <div class="col-10">
+                                    <label class="tos-description" for="tos_accept">I read and accept the <a class="links" href="/privacy">Privacy Policy</a> and the <a class="links" href="/tos">Terms of Service</a>.
+                                        <span class="required">*</span>
+                                    </label>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!--Button Google-->
+                        <div>
+                            <button class="button-google btn btn-primary mt-4" type="submit">Continue with Google</button>
+                        </div>
+                    </form>
+                    
+                        
+
+                    
+                </div>
+                <div class="container form-footer">
+                        <p>© 2026 {{client_name}}</p>
+                </div>
+                
+            </div>
+                
+            
+        </div>
+        
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
+    </body>
+</html>
+</html>

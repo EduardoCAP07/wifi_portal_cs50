@@ -77,5 +77,13 @@ def home(request: Request, phone: str = Form(...)):
                     name="login.html",
                     context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": "Invalid phonenumber"}
                     )
+@app.get("/success.html", response_class=HTMLResponse)
+def home(request: Request):
+    client = {"name": "La Fleur", "subname": "Bistro Frances", "id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
+    logo_path = "/static/resources/images/" + client["id"] + ".png"
 
-    
+    return templates.TemplateResponse(
+        request=request,
+        name="success.html", 
+        context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None}
+    )

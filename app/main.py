@@ -13,7 +13,15 @@ from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+
+
 import phonenumbers
+
+# classes used for sqlachemy
+from app.models.lead import Lead
+from app.crud.lead import test1
+from app.models.user import User
+from app.db.database import async_session
 
 app = FastAPI()
 
@@ -23,6 +31,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 # response_class tip from FastAPI documentation
 # and modification of the FastAPI example for Jinja2 templates
+
 # https://fastapi.tiangolo.com/advanced/templates/#using-jinja2templates
 # validating phone | Chat gpt helped me understand how type hints and type annotations work
 def phone_validation (phone: str) -> str | None:
@@ -41,6 +50,9 @@ def phone_validation (phone: str) -> str | None:
         
     except phonenumbers.NumberParseException:
         return None
+
+#def store_lead (phone: str):
+
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
@@ -66,7 +78,7 @@ def home(request: Request, phone: str = Form(...)):
         # render sucess page if phone is valid
         return templates.TemplateResponse(
                     request=request,
-                    name="login.html",
+                    name="success.html",
                     context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None}
                     )
     else:
@@ -77,13 +89,21 @@ def home(request: Request, phone: str = Form(...)):
                     name="login.html",
                     context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": "Invalid phonenumber"}
                     )
-@app.get("/success.html", response_class=HTMLResponse)
-def home(request: Request):
+    
+@app.get("/dashboard", response_class=HTMLResponse)
+async def home(request: Request):
     client = {"name": "La Fleur", "subname": "Bistro Frances", "id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
     logo_path = "/static/resources/images/" + client["id"] + ".png"
+    leads = []
 
+    # created with syntax help from AI
+    async with async_session() as session:
+        result = await session.execute(test1)
+        leads = result.scalars().all()
+        
+    # render login page
     return templates.TemplateResponse(
         request=request,
-        name="success.html", 
-        context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None}
+        name="dashboard.html", 
+        context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None, "leads": leads}
     )

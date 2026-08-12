@@ -1,10 +1,21 @@
-body{
+/*overflow bug fixed using AI in "body"*/
+body {
     background-color: var(--body-color);
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    
 }
 
-/*CONTAINERS*/
 
-.main-container{
+
+
+
+
+/* CONTAINERS */
+
+.main-container {
     position: relative;
     width: 460px;
     height: 800px;
@@ -13,21 +24,21 @@ body{
     background-color: var(--background-color);
     overflow: hidden;
 }
-.half-up-container{
+.half-up-container {
     background-color: var(--primary-color);
     width: 100%;
     padding: 0px 40px;
 }
-.half-down-container{
+.half-down-container {
     width: 100%;
     padding: 0px 40px;
 }
-.tos-container{
+.tos-container {
     border: 1px solid rgba(238, 238, 238);
     border-radius: 9px;
     background-color: rgba(249, 249, 249);
 }
-.form-footer{
+.form-footer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -36,9 +47,20 @@ body{
     padding: 15px 0vw;
 }
 
-/*IMAGES*/
+/* CONTAINERS END */
 
-.logo{
+
+
+
+
+
+
+
+
+
+/* IMAGES */
+
+.logo {
     background-color: var(--background-color);
     width: 130px;
     height: 130px;
@@ -46,11 +68,11 @@ body{
     border-radius: 12px;
     padding: 0.3vw;
 }
-.form{
+.form {
     width: 100%;
 
 }
-#phonenumber{
+#phonenumber {
     width: 100%;
     border: 1px solid rgba(221, 221, 221);
     border-radius: 9px;
@@ -58,36 +80,53 @@ body{
 
 }
 
-/*TEXT*/
+/* IMAGES END */
 
-.client-name{
+
+
+
+
+
+
+
+
+/* TEXT */
+
+
+.client-name {
     color: white;
     font-size: 40px;
 }
 
-.client-subname{
+.client-subname { 
     color: white;
     font-size: 19px;
 }
 
-.instructions{
+.instructions {
     color: rgb(179, 179, 179);
 }
 
-.tos-description{
+.tos-description {
     font-size: 13px;
 }
 
-.error{
+.error {
     color: red;
     font-size: 13px;
 }
 
+/* TEXT END */
 
 
-/*button*/
 
-.button-google{
+
+
+
+
+/* BUTTON */
+
+.button-google {
     display: block;
     width: 100% !important;
     background-color: var(--primary-color);
@@ -96,18 +135,283 @@ body{
     padding: 12px 0px;
 
 }
-.button-google:hover{
+.button-google:hover {
     /* AI helped teach me what is color-mix*/
     background-color: color-mix(in srgb, var(--primary-color) 90%, white 10%)
 }
 
+/* BUTTONS END */
 
 
-/*extras*/
+
+
+
+
+
+
+
+/* EXTRAS */
+
 .required{
     color: red;
 }
 
 .links{
     color: var(--half-up-color);
+}
+
+/* EXTRAS END */
+
+
+
+
+
+
+/*-----------------------DASHBOARD SECTION------------------------- */
+
+
+
+
+
+
+
+/* CONTAINERS */
+
+
+.left-dashb__container {
+    background-color:rgb(255, 255, 255);
+    border-right: solid 1px transparent;
+    height: 100%;
+    position: sticky;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+}
+
+.right-dashb__container {
+    background-color: var(--primary-color);
+    border-right: solid 1px transparent;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    /*overflow problem solved with the help of AI*/
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+
+}
+
+.main-container-dash {
+    width: 65vw;
+    display: flex;
+}
+
+.left-dashb__container .nav-pills {
+    width: 100%;
+}
+
+.nav-menu {
+    width: 90%;
+    
+}
+
+.content-box {
+    background-color: white;
+    border: solid 0.2vw transparent;
+    border-radius: 1vw;
+    
+}
+
+.content-box.g {
+    height: 45vh;
+    margin: 1vw 0.5vw 1vw;
+}
+
+.content-box.s {
+    height: 23vh;
+    margin: 1vw 0.5vw 1vw;
+}
+
+#container-leads {
+    height: 70vh;
+    border:solid 0px transparent;
+    border-radius: 1vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    box-shadow: 2px 3px 15px 4px rgba(0,0,0,40%);
+}
+
+.leads-toolbox{
+    height: 10vw;
+    
+}
+
+.searchbox{
+    border: solid 0.1vw black;
+    border-radius: 1vw;
+    overflow: hidden;
+    padding: 0.5vw 0vw 0.5vw 0.4vw;
+    margin: 0.8vw 0vw 0.8vw 0.8vw;
+}
+
+
+/* CONTAINERS END */
+    
+
+
+
+
+
+
+/* TEXT */
+
+.right-dashb__container .client-name {
+    color: black;
+}
+
+.left-dashb__container .client-name {
+    color: var(--primary-color);
+    font-size: 3vw;
+}
+
+.left-dashb__container .nav-link {
+    color: var(--primary-color);
+}
+
+.left-dashb__container .nav-link.active {
+    color: white;
+    background-color: var(--primary-color);
+}
+
+.nav-pills .nav-link{
+    font-size: 1.3vw;
+}
+
+/* TEXT END */
+
+
+
+
+
+
+
+
+
+
+/* IMAGES */
+
+.left-dashb__container .logo {
+    width: 13vw;
+    height: 13vw;
+    border: 0px solid transparent;
+    border-radius: 1.0vw;
+}
+
+/* IMAGES END */
+
+
+
+
+
+
+
+
+
+
+
+/* BUTTONS */
+
+.nav-pills .nav-link{
+    padding-bottom: 0.56vw;
+    padding-top: 0.56vw;
+    border-radius: 0.7vw;
+    margin-bottom: 0.5vw;
+}
+.nav-pills .nav-link.active{
+    box-shadow: 0.06vw 0.08vw 0.5vw 0px rgba(0,0,0, 40%);
+}
+
+/* BUTTONS END */
+
+
+
+
+
+
+
+
+
+
+
+/* TABLES */
+
+.table-leads {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+    text-align: left;
+}
+
+.table-leads th {
+    position: sticky;
+    top: 0;
+    padding-top: 0.5vw;
+    z-index: 1;
+    background-color: rgb(235, 235, 235);
+    height: 4.5vw;
+    color: var(--primary-color);
+    border-bottom: solid 1px rgb(213, 213, 213);
+    font-size: 1.15vw;
+}
+
+.table-leads td {
+    height: 5vw;
+    border-bottom: solid 1px rgb(239, 239, 239);
+    font-size: 1.1vw;
+}
+
+.table-leads td:first-child, .table-leads th:first-child{
+    padding-left: 3vw;
+}
+
+/* TABLES END */
+
+
+
+
+
+
+/* EXTRAS */
+
+
+/* AI used to remove default styling of search type input */
+input[type="search"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Removes the magnifying glass icon inside WebKit/Safari */
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Removes the 'X' clear/cancel button inside Chrome and Safari */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }

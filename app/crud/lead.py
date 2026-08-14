@@ -3,5 +3,11 @@ from app.models.lead import Lead
 
 
 # adapted from https://docs.sqlalchemy.org/en/20/orm/quickstart.html#simple-select
-test1 = select(Lead).where(Lead.ssid.in_(["La Fleur - WiFi"]))
+#TODO: Replace the hardcoded user_id for the variable of the currrent user id when login feature is implemented
+select_all_query = select(
+    Lead.created_at,
+    Lead.name,
+    Lead.ssid,
+    Lead.phone
+).where(Lead.user_id == 1)
 

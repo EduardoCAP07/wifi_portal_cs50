@@ -19,7 +19,7 @@ import phonenumbers
 
 # classes used for sqlachemy
 from app.models.lead import Lead
-from app.crud.lead import test1
+from app.crud.lead import select_all_query
 from app.models.user import User
 from app.db.database import async_session
 
@@ -52,6 +52,14 @@ def phone_validation (phone: str) -> str | None:
         return None
 
 #def store_lead (phone: str):
+
+async def select_all():
+    async with async_session() as session:
+        result = await session.execute(select_all_query)
+        leads = result.mappings().all()
+        return leads
+
+
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -94,13 +102,11 @@ def home(request: Request, phone: str = Form(...)):
 async def home(request: Request):
     client = {"name": "La Fleur", "subname": "Bistro Frances", "id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
     logo_path = "/static/resources/images/" + client["id"] + ".png"
-    leads = []
+    # created with sqlalchemy's syntax help from AI
+    # gets all the leads from database
+    leads = await select_all()
 
-    # created with syntax help from AI
-    async with async_session() as session:
-        result = await session.execute(test1)
-        leads = result.scalars().all()
-        
+
     # render login page
     return templates.TemplateResponse(
         request=request,

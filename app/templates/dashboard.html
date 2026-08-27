@@ -8,17 +8,17 @@
         <script src="static/js/main.js" defer></script>
         <style>
             :root {
-                --body-color: grey;
                 --primary-color: {{primary_color}};
                 --background-color: {{secondary_color}};
                 --text-color: {{text_color}};
+                --body-color: color-mix(in srgb, var(--primary-color) 8%, white 92%);
             }
         </style>
     </head>
     <body>
         <div>
             <div class="row g-0">
-                <div class="p-0 col-2" id="col-esq">
+                <div class="left-col p-0 col-2" id="col-esq">
                     <div class="left-dashb__container">
 
                         <div class="logo-container mb-3 pt-4">
@@ -35,12 +35,25 @@
                         <div class="d-flex align-items-center mt-5 nav-menu">
                             <div class="nav flex-column nav-pills" id="v-pill-tab" role="tablist" aria-orientation="vertical">
                                 
-                                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-                                <button class="nav-link " id="v-pills-leads-tab" data-bs-toggle="pill" data-bs-target="#v-pills-leads" type="button" role="tab" aria-controls="v-pills-leads" aria-selected="false">Leads</button>
-                                <button class="nav-link " id="v-pills-export-tab" data-bs-toggle="pill" data-bs-target="#v-pills-export" type="button" role="tab" aria-controls="v-pills-export" aria-selected="false">Export</button>
-                                <button class="nav-link " id="v-pills-metrics-tab" data-bs-toggle="pill" data-bs-target="#v-pills-metrics" type="button" role="tab" aria-controls="v-pills-metrics" aria-selected="false">Metrics</button>
+                                <button class="nav-link active d-flex" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                    <svg class="nav-icon" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+                                    <span class="nav-text">Home</span>
+                                </button>
+
+                                <button class="nav-link d-flex" id="v-pills-leads-tab" data-bs-toggle="pill" data-bs-target="#v-pills-leads" type="button" role="tab" aria-controls="v-pills-leads" aria-selected="false">
+                                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+                                    <span class="nav-text">Leads</span>
+                                </button>
                                 
-                                
+                                <button class="nav-link d-flex" id="v-pills-export-tab" data-bs-toggle="pill" data-bs-target="#v-pills-export" type="button" role="tab" aria-controls="v-pills-export" aria-selected="false">
+                                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h200v80H160v480h640v-480H600v-80h200q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-184L280-544l56-56 104 104v-304h80v304l104-104 56 56-200 200Z"/></svg>
+                                    <span class="nav-text">Export</span>
+                                </button>
+
+                                <button class="nav-link d-flex" id="v-pills-metrics-tab" data-bs-toggle="pill" data-bs-target="#v-pills-metrics" type="button" role="tab" aria-controls="v-pills-metrics" aria-selected="false">
+                                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/></svg>
+                                    <span class="nav-text">Metrics</span>
+                                </button>
 
                             </div>
                         </div>
@@ -49,15 +62,15 @@
 
 
                 <div class="p-0 col" id="col-dir">
-                    <div class="right-dashb__container pt-5">
+                    <div class="right-dashb__container py-5">
 
                         <!--Modified from Bootstrap Example - https://getbootstrap.com/docs/5.0/components/navs-tabs-->
-                        <div class="tab-content mt-5" id="v-pills-tabContent">
+                        <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                 
                                 <!--Content of HOME-->
 
-                                <div class="container">
+                                <div class="container-fluid">
                                     <div class="row main-container-dash">
                                         <div class="col content-box s">
                                             
@@ -76,15 +89,18 @@
                                         <div class="col content-box g">
                                             
                                         </div>
-                                        <div class="col-7 content-box g">
+
+
+
+                                        <div class="col-7 content-box g d-flex flex-column">
 
                                         </div>
                                     </div>
                                     <div class="row main-container-dash">
-                                        <div class="col-7 content-box g">
+                                        <div class="col content-box m d-flex flex-column">
 
                                         </div>
-                                        <div class="col content-box g" >
+                                        <div class="col-7 content-box m d-flex flex-column" >
 
                                         </div>
                                     </div>

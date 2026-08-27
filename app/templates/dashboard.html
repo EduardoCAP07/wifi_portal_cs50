@@ -114,6 +114,7 @@
                                                 <th>Email</th>
                                                 <th>Name</th>
                                                 <th>Phone</th>
+                                                <th>Visits</th>
                                             </tr>
                                         </thead>
                                         <tbody id="table-body">
@@ -122,6 +123,11 @@
                                                     <td>{{lead.email}}</td>
                                                     <td>{{lead.name}}</td>
                                                     <td>{{lead.phone}}</td>
+                                                    <td>
+                                                        <div class="d-inline-block">
+                                                            <button value= {{lead.id}} class="button-history">History</button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             {%endfor%}
                                         </tbody>

@@ -13,6 +13,7 @@ from fastapi import FastAPI, Request, Form, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from fastapi.encoders import jsonable_encoder
 
 
 import phonenumbers
@@ -20,7 +21,9 @@ import phonenumbers
 # classes used for sqlachemy
 from app.models.lead import Lead
 from app.models.user import User
+from app.models.visit import Visit
 from app.crud.lead import select_all_query, search_query
+from app.crud.visits import lead_visits_query
 from app.db.database import async_session
 
 app = FastAPI()
@@ -65,6 +68,14 @@ async def search(search_term):
         result = await session.execute(search_query(search_term))
         leads = result.mappings().all()
         return leads
+
+
+async def lead_visits(lead_id):
+    async with async_session() as session:
+        result = await session.execute(lead_visits_query(lead_id))
+        print(result.keys())
+        visits = result.mappings().all()
+        return visits
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -160,5 +171,36 @@ async def search_fetch(search_term: str | None = Query(default=None, alias="sear
 
     no_result.append({"error": "no_result"})
     return no_result
+
+    # end of normalizing
+
+
+@app.get("/api/history")
+async def history_fetch(lead_id: int | None = Query(default=None, alias="lead_id")) -> list[dict]:
+    json_visits = []
+
+    #TODO: Validates if user has autorization to search for that specific lead
+
+
+    if not lead_id:
+        json_visits.append({"error": "Invalid id"})
+        return json_visits
+
+
+
+    # Gets all visits from database
+    visits = await lead_visits(lead_id)
+
+
+    if visits:
+        for visit in visits:
+            visit_dict = dict(visit)
+            visit_dict["created_at"] = jsonable_encoder(visit_dict["created_at"])
+            json_visits.append(visit_dict)
+        return json_visits
+
+    json_visits.append({"error": "Invalid id"})
+    return json_visits
+
 
     # end of normalizing

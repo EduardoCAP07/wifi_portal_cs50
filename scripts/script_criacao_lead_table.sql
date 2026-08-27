@@ -25,11 +25,6 @@ CREATE TABLE IF NOT EXISTS leads(
     name VARCHAR(100) NOT NULL,
     phone VARCHAR(14) NOT NULL UNIQUE,
     email VARCHAR(254) NOT NULL,
-    ssid VARCHAR(100) NOT NULL,
-    mac VARCHAR(17) NOT NULL,
-    tos_accepted_at DATETIME NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    metadata JSON,
     
     user_id INT UNSIGNED NOT NULL,
     

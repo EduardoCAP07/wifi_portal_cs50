@@ -349,6 +349,21 @@ body {
 
 /* BUTTONS */
 
+.button-history {
+    background-color: var(--primary-color);
+    padding: 6.5px 15px;
+    border: 0 solid transparent;
+    border-radius: 8px;
+    box-shadow: 0.7px 0.92px 5.8px 0 rgba(0,0,0, 40%);
+    color: var(--background-color);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.button-history:hover {
+    transform: translate(1px, -1px);
+}
+
 .nav-pills .nav-link{
     padding-bottom: 0.56vw;
     padding-top: 0.56vw;
@@ -410,6 +425,56 @@ body {
     height: 8vh;
     border-bottom: solid 1px rgb(239, 239, 239);
     font-size: 1.1vw;
+}
+
+/* -- Visits Table */
+
+.history-row {
+    background-color: var(--body-color);
+}
+
+.div-ext {
+    width: 100%;
+    opacity: 1;
+    transform: translateY(0);
+    transition: height 130ms ease-in, opacity 130ms linear, transform 130ms linear;
+    overflow: hidden;
+}
+
+.visits-div {
+    box-shadow: -4px 0 0 0 var(--primary-color);
+}
+
+.visits-table {
+    width: 40%;
+    background-color: var(--body-color);
+}
+
+.visits-head-row {
+    height: 3vw;
+    width: 100%;
+}
+
+.visits-head-row th {
+    height: 3vh;
+    background-color: var(--body-color);
+    color: var(--primary-color);
+    font-size: 1vw;
+}
+
+.visits-row {
+    color: var(--primary-color);
+    height: 4vh;
+}
+
+.visits-row td {
+    color: var(--primary-color);
+    font-size: 1vw;
+    border-bottom: solid 0.5px rgb(212, 212, 212);
+}
+
+.visits-row, .visits-head-row {
+    padding-left: 1vw;
 }
 
 /* TABLES END */

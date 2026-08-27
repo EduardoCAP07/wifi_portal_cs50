@@ -7,7 +7,8 @@ from app.models.lead import Lead
 select_all_query = select(
     Lead.email,
     Lead.name,
-    Lead.phone
+    Lead.phone,
+    Lead.id
 ).where(Lead.user_id == 1)
 
 #TODO: Replace the hardcoded user_id for the variable of the currrent user id when admin login feature is implemented
@@ -15,7 +16,8 @@ def search_query(search_term: str):
     stmt = select(
         Lead.email,
         Lead.name,
-        Lead.phone
+        Lead.phone,
+        Lead.id
     ).where(
         and_(
             or_(

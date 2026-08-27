@@ -9,7 +9,7 @@
 
 # most AI use cases were explanation questions for my doubts after reading the documentation on external libraries or python syntax
 
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -19,8 +19,8 @@ import phonenumbers
 
 # classes used for sqlachemy
 from app.models.lead import Lead
-from app.crud.lead import select_all_query
 from app.models.user import User
+from app.crud.lead import select_all_query, search_query
 from app.db.database import async_session
 
 app = FastAPI()
@@ -60,6 +60,11 @@ async def select_all():
         return leads
 
 
+async def search(search_term):
+    async with async_session() as session:
+        result = await session.execute(search_query(search_term))
+        leads = result.mappings().all()
+        return leads
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -113,3 +118,47 @@ async def home(request: Request):
         name="dashboard.html", 
         context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None, "leads": leads}
     )
+
+# AI helped debbug
+@app.get("/api/leads")
+async def search_fetch(search_term: str | None = Query(default=None, alias="search")) -> list[dict]:
+    # normalizing
+    json_leads = []
+    if not search_term or search_term.isspace():
+        leads = await select_all()
+        for lead in leads:
+            lead_dict = dict(lead)
+            #lead_dict["created_at"] = jsonable_encoder(lead_dict["created_at"])
+            json_leads.append(lead_dict)
+        return json_leads
+
+    # trimmer for external spaces and collapse for internal whitespaces with AI help
+    search_term = " ".join(search_term.split())
+
+    error_len = []
+    # check lenght
+    if len(search_term) > 100:
+        error_len.append({"error": "over_max_length"})
+        return error_len
+
+
+    # Normalizign search term for ("%%") LIKE sqlalchemy query
+    search_term = "%" + search_term + "%"
+
+    leads = await search(search_term)
+
+    no_result = []
+
+
+    if leads:
+        for lead in leads:
+            lead_dict = dict(lead)
+            #if lead_dict["created_at"]:
+                #lead_dict["created_at"] = jsonable_encoder(lead_dict["created_at"])
+            json_leads.append(lead_dict)
+        return json_leads
+
+    no_result.append({"error": "no_result"})
+    return no_result
+
+    # end of normalizing

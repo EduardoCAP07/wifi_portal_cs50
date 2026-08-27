@@ -12,7 +12,8 @@ class Lead(Base):
     __tablename__ = "leads"
     id: Mapped[int] = mapped_column(INTEGER(unsigned=True), primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
-    phone: Mapped[str] = mapped_column(String(11))
+    phone: Mapped[str] = mapped_column(String(14))
+    email: Mapped[str] = mapped_column(String(254))
     ssid: Mapped[str] = mapped_column(String(100))
     mac: Mapped[str] = mapped_column(String(17))
     tos_accepted_at: Mapped[datetime.datetime]

@@ -250,17 +250,36 @@ body {
     box-shadow: 2px 3px 15px 4px rgba(0,0,0,40%);
 }
 
-.leads-toolbox{
-    height: 10vw;
+#leads-toolbox {
+    height: 12vh;
+    display: flex;
     
 }
 
-.searchbox{
+.searchbox {
     border: solid 0.1vw black;
     border-radius: 1vw;
     overflow: hidden;
     padding: 0.5vw 0vw 0.5vw 0.4vw;
     margin: 0.8vw 0vw 0.8vw 0.8vw;
+    height: 4.5vh;
+    display: flex;
+    align-self: flex-end;
+    justify-self: flex-end;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.tool-vcontainer {
+    justify-content: center;
+    padding-left: 1vw;
+}
+
+.tool-vcontainer label {
+    font-size: 23.5px;
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 
@@ -354,6 +373,8 @@ body {
 
 /* TABLES */
 
+
+/* -- Leads Table */
 .table-leads {
     width: 100%;
     border-spacing: 0;
@@ -361,26 +382,34 @@ body {
     text-align: left;
 }
 
-.table-leads th {
+.header-leads th {
     position: sticky;
     top: 0;
     padding-top: 0.5vw;
     z-index: 1;
-    background-color: rgb(235, 235, 235);
-    height: 4.5vw;
-    color: var(--primary-color);
+    background-color: var(--primary-color);
+    height: 6vh;
+    color: var(--background-color);
     border-bottom: solid 1px rgb(213, 213, 213);
     font-size: 1.15vw;
 }
 
-.table-leads td {
-    height: 5vw;
-    border-bottom: solid 1px rgb(239, 239, 239);
+.generated td {
+    height: 8vh;
+    border-top: solid 0.5px rgb(239, 239, 239);
+    border-bottom: solid 0.5px rgb(239, 239, 239);
     font-size: 1.1vw;
+    color: var(--primary-color);
 }
 
-.table-leads td:first-child, .table-leads th:first-child{
+.generated td:first-child, .header-leads th:first-child {
     padding-left: 3vw;
+}
+
+.generated {
+    height: 8vh;
+    border-bottom: solid 1px rgb(239, 239, 239);
+    font-size: 1.1vw;
 }
 
 /* TABLES END */

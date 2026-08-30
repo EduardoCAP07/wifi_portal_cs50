@@ -30,3 +30,13 @@ def search_query(search_term: str):
 )
     return stmt
 
+
+
+def get_lead_id(phone: str, user_id: int):
+    stmt = select(Lead.id).where(
+        and_(
+            Lead.phone == phone,
+            Lead.user_id == user_id
+        )
+    )
+    return stmt

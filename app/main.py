@@ -14,15 +14,16 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.encoders import jsonable_encoder
+import random
 
-
+from datetime import datetime
 import phonenumbers
 
 # classes used for sqlachemy
 from app.models.lead import Lead
 from app.models.user import User
 from app.models.visit import Visit
-from app.crud.lead import select_all_query, search_query
+from app.crud.lead import select_all_query, search_query, get_lead_id
 from app.crud.visits import lead_visits_query
 from app.db.database import async_session
 
@@ -48,13 +49,58 @@ def phone_validation (phone: str) -> str | None:
 
             print("numero valido")
 
-            return parsed_number
+            # AI helped with syntax
+            return phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
         
         
     except phonenumbers.NumberParseException:
         return None
 
-#def store_lead (phone: str):
+# This function is going to actually get data from google auth2.0 in the future
+# For the MVP it is just a random name generator + returns true for valid
+def google_auth():
+    #lists of fake names
+    first_names = ["Eduardo", "David", "Mary", "Chad", "Taylor", "Monica", "Chandler", "Ross"]
+    last_names = ["Silva", "Bing", "Geller", "Green", "Tribiani", "Buffet"]
+
+
+    first_name  = random.choice(first_names)
+    # AI helped with random.choice
+    name = f"{first_name}" + " " + f"{random.choice(last_names)}"
+    email = f"{first_name}" + "@gmail.com"
+    valid = True
+    return ({"name": name, "email": email, "valid": valid})
+
+#TODO: Function that stores leads in the database
+async def create_lead (google_data: dict, phone: str, user_id: int, ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata: dict | None):
+    name = google_data["name"]
+    email = google_data["email"]
+    async with async_session() as session:
+        # AI helped with session.add and session.flush syntax
+        lead = Lead(name = name, email = email, phone = phone, user_id = user_id)
+        session.add(lead)
+
+        await session.flush()
+
+        first_visit = Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead.id)
+        session.add(first_visit)
+        await session.commit()
+    return
+async def create_visit(ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata, lead_id):
+    async with async_session() as session:
+        # AI helped with session.add syntax
+        visit= Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead_id)
+        session.add(visit)
+        await session.commit()
+
+
+async def lead_exists(phone: str, user_id: int):
+    async with async_session() as session:
+        result = await session.execute(get_lead_id(phone, user_id))
+        lead_id = result.scalar_one_or_none()
+    return lead_id
+
+# Function that selects all leads
 
 async def select_all():
     async with async_session() as session:
@@ -92,12 +138,27 @@ def home(request: Request):
 
 # ChatGPT helped me get the syntax for Form function from Jinja2
 @app.post("/login", response_class=HTMLResponse)
-def home(request: Request, phone: str = Form(...)):
+async def home(request: Request, phone: str = Form(...)):
     client = {"name": "La Fleur", "subname": "Bistro Frances", "id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
     logo_path = "/static/resources/images/" + client["id"] + ".png"
     parsed_phone = phone_validation(phone)
 
-    if parsed_phone:
+    if (parsed_phone and google_auth_response["valid"]):
+
+        #TODO: Change hardcoded user_id when login is implemented
+        # Stores leads in database
+        user_id = 1
+
+        lead_id = await lead_exists(parsed_phone, user_id)
+
+        # Fake ssid and mac
+        ssid = "La Fleur - WiFi"
+        mac = "AA:BB:CC:DD:EE:FF"
+        tos_accepted_at = datetime.now()
+        if lead_id:
+            await create_visit(ssid, mac, tos_accepted_at, None, lead_id)
+        else:
+            await create_lead(google_auth_response, parsed_phone, user_id, ssid, mac, tos_accepted_at, {"extra_info": "First Access"})
 
         # render sucess page if phone is valid
         return templates.TemplateResponse(
@@ -116,6 +177,7 @@ def home(request: Request, phone: str = Form(...)):
     
 @app.get("/dashboard", response_class=HTMLResponse)
 async def home(request: Request):
+    google_auth_response = google_auth()
     client = {"name": "La Fleur", "subname": "Bistro Frances", "id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
     logo_path = "/static/resources/images/" + client["id"] + ".png"
     # created with sqlalchemy's syntax help from AI

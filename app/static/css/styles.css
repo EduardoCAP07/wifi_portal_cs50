@@ -5,7 +5,7 @@ body {
     margin: 0;
     overflow: hidden;
 
-    
+
 }
 
 
@@ -46,7 +46,15 @@ body {
     border: 1px solid rgba(238, 238, 238);
     padding: 15px 0vw;
 }
-
+.form-input {
+    border: 1px solid rgba(221, 221, 221);
+    border-radius: 9px;
+    height: 54px;
+    width: 100%;
+}
+#phonenumber {
+    height: 60px;
+}
 /* CONTAINERS END */
 
 
@@ -70,15 +78,9 @@ body {
 }
 .form {
     width: 100%;
-
+    font-size: 19px;
 }
-#phonenumber {
-    width: 100%;
-    border: 1px solid rgba(221, 221, 221);
-    border-radius: 9px;
-    height: 5vh;
 
-}
 
 /* IMAGES END */
 
@@ -98,17 +100,18 @@ body {
     font-size: 40px;
 }
 
-.client-subname { 
+.client-subname {
     color: white;
     font-size: 19px;
 }
 
 .instructions {
     color: rgb(179, 179, 179);
+    font-size: 18px;
 }
 
 .tos-description {
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .error {
@@ -125,26 +128,33 @@ body {
 
 
 /* BUTTON */
+button {
+    all:unset;
+    cursor: pointer;
+}
 
 .button-google {
     display: block;
     width: 100% !important;
     background-color: var(--primary-color);
+    border: 1px solid transparent;
     border-radius: 9px;
+    font-size: 22px;
     font-weight: 600;
-    padding: 12px 0px;
+    padding: 14px 0px;
+    transition: transform 0.23s ease;
+    box-shadow: 1px 2px 5px 1px rgba(0,0,0,20%);
+
 
 }
 .button-google:hover {
     /* AI helped teach me what is color-mix*/
-    background-color: color-mix(in srgb, var(--primary-color) 90%, white 10%)
+    background-color: color-mix(in srgb, var(--primary-color) 90%, white 10%);
+    transform: translateY(2px)
 }
 
 /* Button style removed with AI's answer */
-button {
-    all:unset;
-    cursor: pointer;
-}
+
 
 /* BUTTONS END */
 
@@ -169,9 +179,131 @@ button {
 /* EXTRAS END */
 
 
+/* -------- RESPONSIVINESS ---------- */
+@media(max-width: 440px) {
+    .main-container {
+        position: relative;
+        width: 300px;
+        height: 520px;
+        border: 0px solid transparent;
+        border-radius: 3.5vw;
+        background-color: var(--background-color);
+        overflow: hidden;
+    }
+    .half-up-container {
+        background-color: var(--primary-color);
+        width: 100%;
+        padding: 0px 40px;
+    }
+    .half-down-container {
+        width: 100%;
+        padding: 0px 30px;
+    }
+    .tos-container {
+        border: 1px solid rgba(238, 238, 238);
+        border-radius: 9px;
+        background-color: rgba(249, 249, 249);
+    }
+    .form-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(249, 249, 249);
+        border: 1px solid rgba(238, 238, 238);
+        padding: 6px 0vw;
+    }
+
+    /* CONTAINERS END */
 
 
 
+
+
+
+
+
+
+
+    /* IMAGES */
+
+    .logo {
+        background-color: var(--background-color);
+        width: 80px;
+        height: 80px;
+        border: 0px solid transparent;
+        border-radius: 10px;
+        padding: 0.3vw;
+    }
+    .form {
+        width: 100%;
+        font-size: 14px;
+    }
+    #phonenumber {
+        width: 100%;
+        border: 1px solid rgba(221, 221, 221);
+        border-radius: 9px;
+        height: 42px;
+
+    }
+
+    /* IMAGES END */
+
+
+
+
+
+
+
+
+
+    /* TEXT */
+
+
+    .client-name {
+        color: white;
+        font-size: 27px;
+    }
+
+    .client-subname {
+        color: white;
+        font-size: 13.5px;
+    }
+
+    .instructions {
+        color: rgb(179, 179, 179);
+        font-size: 13.5px;
+    }
+
+    .tos-description {
+        font-size: 12px;
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
+    }
+
+    /* TEXT END */
+
+
+
+
+
+
+
+    /* BUTTON */
+
+    .button-google {
+        display: block;
+        width: 100% !important;
+        background-color: var(--primary-color);
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 0px;
+
+    }
+}
 
 /*-----------------------DASHBOARD SECTION------------------------- */
 
@@ -226,7 +358,7 @@ button {
 
 .nav-menu {
     width: 90%;
-    
+
 }
 
 .content-box {
@@ -234,7 +366,7 @@ button {
     border: solid 0.2vw transparent;
     border-radius: 0.6vw;
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,10%);
-    
+
 }
 
 .content-box.g {
@@ -268,11 +400,11 @@ button {
 #leads-toolbox {
     height: 12vh;
     display: flex;
-    
+
 }
 
 .searchbox {
-    border: solid 0.1vw black;
+    border: solid 0.1vw var(--primary-color);
     border-radius: 1vw;
     overflow: hidden;
     padding: 0.5vw 0vw 0.5vw 0.4vw;
@@ -308,7 +440,7 @@ button {
 
 
 /* CONTAINERS END */
-    
+
 
 
 
@@ -408,7 +540,6 @@ button {
 
 
 
-
 /* BUTTONS */
 
 .nav-pills .nav-link {
@@ -444,6 +575,21 @@ button {
 
 .button-history:hover {
     transform: translate(1px, -1px)
+}
+
+.logout {
+    padding-bottom: 9.8px;
+    padding-top: 9.8px;
+    border-radius: 13px;
+    margin-bottom: 8.7px;
+    transition: transform 0.23s ease;
+    font-size: 22px;
+    font-weight: 400;
+}
+.logout:hover {
+    box-shadow: inset 0.3px 0.5px 2px 0px rgba(0,0,0, 40%);
+    transform: translateX(3px);
+
 }
 /* BUTTONS END */
 
@@ -616,14 +762,6 @@ input[type="search"]::-webkit-search-cancel-button {
         font-size: 45px;
     }
 
-    .left-dashb__container .nav-link {
-        color: var(--primary-color);
-    }
-
-    .left-dashb__container .nav-link.active {
-        color: white;
-        background-color: var(--primary-color);
-    }
 
     .nav-pills .nav-link{
         font-size: 19px;
@@ -689,6 +827,14 @@ input[type="search"]::-webkit-search-cancel-button {
     .nav-pills .nav-link.active{
         box-shadow: 0.9px 1.3px 7.3px 0px rgba(0,0,0, 40%);
     }
+    .logout {
+        padding-bottom: 8.5px;
+        padding-top: 8.5px;
+        border-radius: 11px;
+        margin-bottom: 7.2px;
+        font-size: 19px;
+        font-weight: 400;
+    }
 
     /* BUTTONS END */
 
@@ -726,15 +872,6 @@ input[type="search"]::-webkit-search-cancel-button {
     .left-dashb__container .client-name {
         color: var(--primary-color);
         font-size: 41px;
-    }
-
-    .left-dashb__container .nav-link {
-        color: var(--primary-color);
-    }
-
-    .left-dashb__container .nav-link.active {
-        color: white;
-        background-color: var(--primary-color);
     }
 
     .nav-pills .nav-link{
@@ -806,7 +943,13 @@ input[type="search"]::-webkit-search-cancel-button {
     .nav-pills .nav-link.active{
         box-shadow: 0.8px 1.1px 6.8px 0px rgba(0,0,0, 40%);
     }
-
+    .logout {
+        font-size: 17.8px;
+        padding-bottom: 7.7px;
+        padding-top: 7.7px;
+        border-radius: 9.6px;
+        margin-bottom: 6.8px;
+    }
     /* BUTTONS END */
 
     }
@@ -857,6 +1000,13 @@ input[type="search"]::-webkit-search-cancel-button {
         color: var(--background-color);
     }
 
+    .logout {
+        padding-bottom: 6.5px;
+        padding-top: 6.5px;
+        border-radius: 8px;
+        margin-bottom: 5.8px;
+        font-size: 15px;
+    }
 
     /* TEXT */
 
@@ -865,18 +1015,9 @@ input[type="search"]::-webkit-search-cancel-button {
         font-size: 34.7px;
     }
 
-    .left-dashb__container .nav-link {
-        color: var(--primary-color);
-    }
-
-    .left-dashb__container .nav-link.active {
-        color: white;
-        background-color: var(--primary-color);
-    }
 
     .nav-pills .nav-link{
         font-size: 15px;
-        font-weight: 400;
     }
 
     .tool-vcontainer label  {
@@ -916,4 +1057,24 @@ input[type="search"]::-webkit-search-cancel-button {
         align-items: center;
     }
 
+}
+
+
+/*---------- LOGIN ADMINISTRATIVO ---------*/
+
+.main-container-user {
+    position: relative;
+    width: 800px;
+    height: 630px;
+    border: 0px solid transparent;
+    border-radius: 3.5vw;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+.main-container-user .tos-container {
+    font-size: 20px;
+}
+.main-container-user .container.form-footer {
+    max-width: 100%;
 }

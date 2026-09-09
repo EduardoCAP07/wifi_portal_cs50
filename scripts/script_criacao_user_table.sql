@@ -1,14 +1,14 @@
 -- Script Criação User Table --
 
-/* CABEÇALHO 
+/* CABEÇALHO
 
-	- Projeto: Porta Wifi CS50
+	- Projeto: Portal Wifi CS50
 	- Autor: Eduardo Carvalho
     - Data: 11/08/26
     - Objetivo: Criar a tabela user_account de forma reexecutável e limpa,
     garantindo que funcionará de forma impecável com
     o backend do projeto.
-    
+
 */
 
 -- SCRIPT --
@@ -22,14 +22,16 @@ USE portal_wifi;
 -- Cria tabela de user account
 CREATE TABLE IF NOT EXISTS user_account(
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    phone VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(14) NOT NULL UNIQUE,
     tos_accepted_at DATETIME NOT NULL,
+    is_active BOOL NOT NULL,
+    session_version INT UNSIGNED DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     metadata JSON
-    
-    
+
+
 );
 
 
@@ -37,6 +39,3 @@ CREATE TABLE IF NOT EXISTS user_account(
 SELECT 'TABELA CRIADA/EXISTENTE';
 
 -- FIM SCRIPT --
-
-
-

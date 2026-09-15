@@ -23,6 +23,8 @@ import phonenumbers
 from pwdlib import PasswordHash
 from pwdlib.hashers.argon2 import Argon2Hasher
 
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
+
 # For Session
 import itsdangerous
 from starlette.middleware import Middleware
@@ -128,33 +130,66 @@ async def update_session_version(id: int, session_version:int):
 
 
 
-async def create_lead (*, google_data: dict, phone: str, user_id: int, ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata: dict | None):
+async def create_lead (request: Request, *, google_data: dict, phone: str, user_id: int, ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata: dict | None):
     name = google_data["name"]
     email = google_data["email"]
     async with async_session() as session:
-        # AI helped with session.add and session.flush syntax
-        lead = Lead(name = name, email = email, phone = phone, user_id = user_id)
-        session.add(lead)
+        try:
+            # AI helped with session.add and session.flush syntax
+            lead = Lead(name = name, email = email, phone = phone, user_id = user_id)
+            session.add(lead)
 
-        await session.flush()
+            await session.flush()
 
-        first_visit = Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead.id)
-        session.add(first_visit)
-        await session.commit()
-    return
+            first_visit = Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead.id)
+            session.add(first_visit)
+            await session.commit()
+            return
+        except IntegrityError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to login with these informations"
+            return RedirectResponse(url="/", status_code=303)
+        except SQLAlchemyError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to complete your request. Try again later"
+            return RedirectResponse(url="/", status_code=303)
 
-async def create_visit(ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata, lead_id: int):
+
+
+async def create_visit(request: Request, ssid: str, mac: str, tos_accepted_at: datetime, visit_metadata, lead_id: int):
     async with async_session() as session:
-        # AI helped with session.add syntax
-        visit= Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead_id)
-        session.add(visit)
-        await session.commit()
+        try:
+            # AI helped with session.add syntax
+            visit= Visit(ssid = ssid, mac = mac, tos_accepted_at = tos_accepted_at, visit_metadata = visit_metadata, lead_id = lead_id)
+            session.add(visit)
+            await session.commit()
+        #AI helped with exception
+        except IntegrityError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to login with these informations"
+            return RedirectResponse(url="/", status_code=303)
 
+        except SQLAlchemyError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to complete your request. Try again later"
+            return RedirectResponse(url="/", status_code=303)
 
-async def lead_exists(phone: str, user_id: int):
+async def lead_exists(request: Request, phone: str, user_id: int):
     async with async_session() as session:
-        result = await session.execute(get_lead_id(phone, user_id))
-        lead_id = result.scalar_one_or_none()
+        try:
+            result = await session.execute(get_lead_id(phone, user_id))
+            lead_id = result.scalar_one_or_none()
+
+        except IntegrityError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to login with these informations"
+            return RedirectResponse(url="/", status_code=303)
+
+        except SQLAlchemyError:
+            await session.rollback()
+            request.session["lead_error"] = "Unable to complete your request. Try again later"
+            return RedirectResponse(url="/", status_code=303)
+
     return lead_id
 
 # Function that selects all leads
@@ -218,12 +253,12 @@ def check_and_normalize_email(email: str) -> dict:
 def home(request: Request):
     client = {"id": 1, "name": "La Fleur", "subname": "Bistro Frances", "image_id": "lafleurbistro", "primary_color": "#512828", "secondary_color": "white", "text-color": "white"}
     logo_path = "/static/resources/images/" + client["image_id"] + ".png"
-
+    error = request.session.pop("lead_error", None)
     # render login page
     return templates.TemplateResponse(
         request=request,
         name="login.html",
-        context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": None}
+        context= {"client_name": client["name"], "client_subname": client["subname"], "logo": logo_path, "primary_color": client["primary_color"], "secondary_color": client["secondary_color"], "text_color": client["text-color"], "error": error}
     )
 
 # ChatGPT helped me get the syntax for Form function from Jinja2
@@ -237,22 +272,41 @@ async def login(request: Request, phone: str = Form(...)):
 
     if (parsed_phone and google_auth_response["valid"]):
 
-        #TODO: Change hardcoded user_id when login is implemented
-        # Stores leads in database
 
 
-        lead_id = await lead_exists(parsed_phone, user_id)
+        # Check if lead exists
+        lead_id = await lead_exists(request, parsed_phone, user_id)
+
+        # AI made this snippet
+        # Check if it returned an error
+        if isinstance(lead_id, RedirectResponse):
+            return lead_id
 
         # Fake ssid and mac
         ssid = "La Fleur - WiFi"
         mac = "AA:BB:CC:DD:EE:FF"
-        tos_accepted_at = datetime.now()
-        if lead_id:
-            await create_visit(ssid, mac, tos_accepted_at, None, lead_id)
-        else:
-            await create_lead(google_data = google_auth_response, phone=parsed_phone, user_id=user_id, ssid=ssid, mac=mac, tos_accepted_at=tos_accepted_at, visit_metadata={"extra_info": "First Access"})
 
-        # render sucess page if phone is valid
+        tos_accepted_at = datetime.now()
+
+        # Checks if the
+        # AI helped with the use of error_reponse to catch the errors from the helpers
+        if lead_id:
+            error_reponse = await create_visit(request,ssid, mac, tos_accepted_at, None, lead_id)
+        else:
+            error_reponse = await create_lead(
+                request,
+                google_data = google_auth_response,
+                phone=parsed_phone,
+                user_id=user_id,
+                ssid=ssid,
+                mac=mac,
+                tos_accepted_at=tos_accepted_at,
+                visit_metadata={"extra_info": "First Access"}
+                )
+        if error_reponse is not None:
+            return error_reponse
+
+        # Render sucess page if phone is valid
         return templates.TemplateResponse(
                     request=request,
                     name="success.html",
